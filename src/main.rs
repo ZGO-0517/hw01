@@ -40,6 +40,12 @@ fn read_number(min: u64, max: u64) -> u64 {
 }
 
 
+fn roll_die(seed: u64) -> u64 {
+	let mut rng = StdRng::seed_from_u64(seed);
+	rng.random_range(1..=6)
+}
+
+
 fn main() {
 	let start_gold: u64 = 100;
 	let food_price: u64 = 5;
@@ -48,6 +54,7 @@ fn main() {
 	let mut gold = start_gold;
 	let mut food: u64 = 0;
 	let mut day: u64 = 1;
+	let mut roll_count: u64 = 0;
 
 	println!(r#"
 ======!Welcome to Trail Trader!======
