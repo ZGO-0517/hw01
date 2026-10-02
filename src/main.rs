@@ -23,6 +23,23 @@ fn hunt_food(roll: u64) -> u64 {
 	}
 }
 
+
+fn read_number(min: u64, max: u64) -> u64 {
+	loop {
+		let mut input = String::new();
+		if io::stdin().read_line(&mut input).is_ok() {
+			if let Ok(num) = input.trim().parse::<u64>() {
+				if num >= min && num <= max {
+					return num;
+				}
+			}
+		}
+		println!("Invalid input, Enter a number between {} and {}: ", min, max);
+		let _ = io::stdout().flush();
+	}
+}
+
+
 fn main() {
 	let start_gold: u64 = 100;
 	let food_price: u64 = 5;
