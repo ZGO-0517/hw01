@@ -8,6 +8,17 @@ fn print_menu() {
 "#)
 }
 
+
+fn can_afford(food_price: u64, gold: u64) -> bool {
+	gold >= food_price
+}
+
 fn main() {
-    println!("Hello, world!");
+	let start_gold: u64 = 100;
+	let food_price: u64 = 5;
+	let max_seed: u64 = 9999;
+
+	let mut gold = start_gold;
+	let mut food: u64 = 0;
+	let mut day: u64 = 1;
 }
