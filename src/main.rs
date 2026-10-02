@@ -59,6 +59,16 @@ fn roll_many(seed: u64, count: u64) -> u64 {
 }
 
 
+fn print_status(day: u64, food: u64, gold: u64) {
+	println!(r#"
+	It is day {},
+	you have {} food,
+	and {} gold.
+"#, day, food, gold);
+}
+
+
+
 fn main() {
 	let start_gold: u64 = 100;
 	let food_price: u64 = 5;
