@@ -24,6 +24,7 @@ fn hunt_food(roll: u64) -> u64 {
 		2 | 3 => 10,
 		4 | 5 => 20,
 		6 => 40,
+		_ => 0,
 	}
 }
 
@@ -72,7 +73,7 @@ fn print_status(day: u64, food: u64, gold: u64) {
 fn main() {
 	let start_gold: u64 = 100;
 	let food_price: u64 = 5;
-	let max_seed: u64 = 9999;
+	let _max_seed: u64 = 9999;
 
 	let mut gold = start_gold;
 	let mut food: u64 = 0;
@@ -113,5 +114,85 @@ First, I need a randomizing seed from
 you, then the game will start. select
 a number 1-9999:
 
-"#)
+"#);
+
+	let _ = io::stdout().flush();
+	let base_seed = read_number(1, _max_seed);
+	println!("All set! good luck!");
+
+	loop {
+		print_menu();
+		let choice = read_number(1, 5);
+
+	match choice {
+		1 => {
+			if can_afford(gold, food_price) {
+				println!("You cannot afford to buy food brokie.");
+			}
+			else {
+				let max_affordable = gold / food_price;
+				println!("Food is {} gold each. You can afford {} food.", food_price, max_affordable);
+				println!("How much food do you want to buy? ");
+				let _ = io::stdout().flush();
+
+				let units_to_buy = read_number(1, max_affordable);
+				let total_cost = units_to_buy * food_price;
+
+				gold -= total_cost;
+				food += units_to_buy;
+				day += 1;
+
+				println!("That'll be {} gold, enjoy your food!", total_cost);
+				println!("A day has passed");
+				println!("");
+			}
+		}
+
+
+		2 => {
+			let turn_seed = base_seed + roll_count;
+			let roll = roll_die(turn_seed);
+			let food_gained = hunt_food(roll);
+
+			roll_count += 1;
+			food += food_gained;
+			day += 1;
+
+			println!("Happy hunting! you rolled a {}, which earned you {} food!", roll, food_gained);
+			println!("A day has passed");
+			println!("");
+		}
+
+
+		3 => {
+			let turn_seed = base_seed + roll_count;
+			let total_roll_sum = roll_many(turn_seed, 3);
+			let gold_gained = 2 * total_roll_sum;
+
+			roll_count += 3;
+			gold += gold_gained;
+			day += 1;
+
+			println!("Succesfully traded with the caravan!");
+			println!("All together you rolled {}.", total_roll_sum);
+			println!("That earns you {}!", gold_gained);
+			println!("A day has passed");
+			println!("");
+		}
+
+
+		4 => {
+			print_status(day, food, gold);
+		}
+
+
+		5 => {
+			println!("Player quit!");
+			println!("FINAL RESULTS:");
+			println!("days: {}, food: {}, gold: {}", day, food, gold);
+			break;
+		}
+		_ => unreachable!(),
+		}
+	}
 }
